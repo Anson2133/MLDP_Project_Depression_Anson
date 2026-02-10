@@ -331,8 +331,8 @@ with st.sidebar:
                 If you're feeling overwhelmed or experiencing mental health difficulties, please reach out to a counselor or mental health professional immediately.
             </p>
             <p style="margin-top: 12px; font-weight: 700;">
-                📞 National Crisis Helpline<br>
-                <span style="font-size: 15px;">1-800-273-8255</span>
+                📞 National Crisis Helpline (4 digit)<br>
+                <span style="font-size: 15px;">1711</span>
             </p>
         </div>
     """,
