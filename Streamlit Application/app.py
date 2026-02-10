@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from datetime import datetime
 
-# Page Configuration
 st.set_page_config(
     page_title="Student Depression Risk Assessment",
     page_icon="🧠",
@@ -14,7 +13,6 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Enhanced CSS Styling
 st.markdown(
     """
 <style>
@@ -28,7 +26,6 @@ st.markdown(
     background-color: #ffffff;
 }
 
-/* Sidebar Styling */
 [data-testid="stSidebar"] {
     background: linear-gradient(180deg, #1e3a8a 0%, #2563eb 100%);
     box-shadow: 2px 0 10px rgba(0,0,0,0.1);
@@ -58,7 +55,6 @@ st.markdown(
     border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
-/* Main Content */
 h1, h2, h3, h4, h5, h6, p, label, span, div {
     color: #1e293b !important;
 }
@@ -79,7 +75,6 @@ h1, h2, h3, h4, h5, h6, p, label, span, div {
     font-weight: 400;
 }
 
-/* Info Banner */
 .info-banner {
     background: #f8fafc;
     border-left: 4px solid #2563eb;
@@ -103,7 +98,6 @@ h1, h2, h3, h4, h5, h6, p, label, span, div {
     font-size: 14px;
 }
 
-/* Section Cards */
 .section-card {
     background: white;
     padding: 28px;
@@ -122,7 +116,6 @@ h1, h2, h3, h4, h5, h6, p, label, span, div {
     border-bottom: 2px solid #e2e8f0;
 }
 
-/* Form Inputs */
 .stNumberInput > div > div > input,
 .stSelectbox > div > div > select {
     background-color: #ffffff !important;
@@ -148,7 +141,6 @@ label {
     margin-bottom: 6px !important;
 }
 
-/* Slider Styling */
 .stSlider > div > div > div {
     background-color: #e2e8f0 !important;
 }
@@ -163,7 +155,6 @@ label {
     box-shadow: 0 1px 3px rgba(0,0,0,0.2) !important;
 }
 
-/* Submit Button */
 .stButton > button {
     background-color: #2563eb !important;
     color: white !important;
@@ -181,7 +172,6 @@ label {
     box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
 }
 
-/* Alert Boxes */
 .stAlert {
     border-radius: 6px !important;
     border: none !important;
@@ -189,7 +179,6 @@ label {
     font-size: 14px !important;
 }
 
-/* Error Messages */
 .error-message {
     color: #dc2626;
     font-size: 13px;
@@ -197,13 +186,11 @@ label {
     font-weight: 500;
 }
 
-/* Dataframe Styling */
 .stDataFrame {
     border-radius: 6px !important;
     overflow: hidden !important;
 }
 
-/* Metric Cards */
 .metric-card {
     background: white;
     padding: 20px;
@@ -226,7 +213,6 @@ label {
     margin-top: 8px;
 }
 
-/* Chart Container */
 .chart-container {
     background: white;
     padding: 24px;
@@ -236,7 +222,6 @@ label {
     border: 1px solid #e2e8f0;
 }
 
-/* Sidebar Tips Box */
 .sidebar-tip {
     background: rgba(255, 255, 255, 0.1);
     padding: 14px;
@@ -269,13 +254,11 @@ import streamlit as st
 
 BASE_DIR = os.path.dirname(__file__)
 
-# Load Model Functions
+
 @st.cache_resource
 def load_model():
     try:
-        return joblib.load(
-            os.path.join(BASE_DIR, "logistic_regression_tuned.pkl")
-        )
+        return joblib.load(os.path.join(BASE_DIR, "logistic_regression_tuned.pkl"))
     except Exception as e:
         st.error(f"Model file not found: {e}")
         st.stop()
@@ -284,9 +267,7 @@ def load_model():
 @st.cache_resource
 def load_scaler():
     try:
-        return joblib.load(
-            os.path.join(BASE_DIR, "scaler.pkl")
-        )
+        return joblib.load(os.path.join(BASE_DIR, "scaler.pkl"))
     except Exception as e:
         st.error(f"Scaler file not found: {e}")
         st.stop()
@@ -295,15 +276,12 @@ def load_scaler():
 @st.cache_resource
 def load_selected_features():
     try:
-        return joblib.load(
-            os.path.join(BASE_DIR, "selected_features.pkl")
-        )
+        return joblib.load(os.path.join(BASE_DIR, "selected_features.pkl"))
     except Exception as e:
         st.error(f"Selected features file not found: {e}")
         st.stop()
 
 
-# Initialize
 model = load_model()
 scaler = load_scaler()
 selected_features = load_selected_features()
@@ -311,7 +289,6 @@ selected_features = load_selected_features()
 if "errors" not in st.session_state:
     st.session_state.errors = {}
 
-# Sidebar Navigation
 with st.sidebar:
     st.markdown(
         """
@@ -379,10 +356,10 @@ with st.sidebar:
     )
 
 
-# HOME PAGE
 if page == "🏠 Home":
     st.markdown(
-        "<h1 class='main-title'>Student Depression Risk Assessment</h1>", unsafe_allow_html=True
+        "<h1 class='main-title'>Student Depression Risk Assessment</h1>",
+        unsafe_allow_html=True,
     )
     st.markdown(
         "<p class='subtitle'>Evidence-based machine learning screening tool for early depression detection</p>",
@@ -497,7 +474,6 @@ if page == "🏠 Home":
     )
 
 
-# PREDICTION PAGE
 elif page == "📊 Predict Depression Risk":
 
     st.markdown(
@@ -523,7 +499,6 @@ elif page == "📊 Predict Depression Risk":
 
     with st.form("assessment_form"):
 
-        # Personal Information
         st.markdown(
             "<div class='section-card'><h2 class='section-title'>👤 Personal Information</h2>",
             unsafe_allow_html=True,
@@ -531,7 +506,11 @@ elif page == "📊 Predict Depression Risk":
         col1, col2 = st.columns(2)
         with col1:
             age = st.number_input(
-                "Age", min_value=0, max_value=30, value=20, help="Enter your current age"
+                "Age (15-35 years old)",
+                min_value=15,
+                max_value=35,
+                value=20,
+                help="Enter your age (15–35). This tool is designed for students at pre-university, undergraduate, and postgraduate levels.",
             )
             if "age" in st.session_state.errors:
                 st.markdown(
@@ -543,7 +522,7 @@ elif page == "📊 Predict Depression Risk":
                 "Gender",
                 ["Select gender", "Female", "Male"],
                 index=0,
-                help="Select your gender",
+                help="Select the gender you identify with. This helps improve the accuracy of your assessment.",
             )
             if "gender" in st.session_state.errors:
                 st.markdown(
@@ -552,7 +531,6 @@ elif page == "📊 Predict Depression Risk":
                 )
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # Academic Factors
         st.markdown(
             "<div class='section-card'><h2 class='section-title'>📚 Academic Factors</h2>",
             unsafe_allow_html=True,
@@ -565,7 +543,7 @@ elif page == "📊 Predict Depression Risk":
                 max_value=4.0,
                 value=3.0,
                 step=0.01,
-                help="Enter your current GPA",
+                help="Enter your current cumulative GPA on a 4.0 scale. If your institution uses a different scale, convert it proportionally.",
             )
             if "cgpa" in st.session_state.errors:
                 st.markdown(
@@ -573,24 +551,26 @@ elif page == "📊 Predict Depression Risk":
                     unsafe_allow_html=True,
                 )
             academic_pressure = st.slider(
-                "Academic Pressure (1 = Lowest, 5 = Highest)",
+                "Academic Pressure (1 = Very Low, 5 = Very High)",
                 1,
                 5,
                 3,
+                help="Rate how much pressure you feel from your academic workload, exams, or performance expectations.",
             )
             study_satisfaction = st.slider(
-                "Study Satisfaction (1 = Least Satisfied, 5 = Most Satisfied)",
+                "Study Satisfaction (1 = Very Dissatisfied, 5 = Very Satisfied)",
                 1,
                 5,
                 3,
+                help="How fulfilled or engaged do you feel with your current course or programme of study?",
             )
         with col2:
             work_hours = st.number_input(
-                "Work/Study Hours per Day",
+                "Work/Study Hours per Day (0-12 hours)",
                 min_value=0,
                 max_value=12,
                 value=7,
-                help="Average daily hours spent on work/study",
+                help="Estimate the average number of hours per day you spend studying or working (paid or unpaid). Include self-study, classes, and assignments.",
             )
             if "work_hours" in st.session_state.errors:
                 st.markdown(
@@ -606,7 +586,7 @@ elif page == "📊 Predict Depression Risk":
                     "Postgraduate",
                 ],
                 index=0,
-                help="Select your current education level",
+                help="Pre-University: foundation, A-levels, diploma. Undergraduate: Bachelor's degree. Postgraduate: Master's, PhD, or professional degrees.",
             )
             if "degree_group" in st.session_state.errors:
                 st.markdown(
@@ -615,7 +595,6 @@ elif page == "📊 Predict Depression Risk":
                 )
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # Lifestyle & Health
         st.markdown(
             "<div class='section-card'><h2 class='section-title'>💊 Lifestyle & Health</h2>",
             unsafe_allow_html=True,
@@ -623,16 +602,17 @@ elif page == "📊 Predict Depression Risk":
         col1, col2 = st.columns(2)
         with col1:
             sleep_duration = st.slider(
-                "Sleep Duration (0 = <5hrs, 1 = 5-6hrs, 2 = 7-8hrs, 3 = >8hrs)",
+                "Sleep Duration (0 = Less than 5hrs, 1 = 5–6hrs, 2 = 7–8hrs, 3 = More than 8hrs)",
                 0,
                 3,
                 1,
+                help="Select the option that best describes your typical nightly sleep. Consistent sleep patterns matter — consider your usual routine, not just last night.",
             )
             dietary_habits = st.selectbox(
                 "Dietary Habits",
                 ["Select dietary habits", "Healthy", "Moderate", "Unhealthy"],
                 index=0,
-                help="Rate your overall eating habits",
+                help="Healthy: balanced meals regularly. Moderate: mostly balanced with occasional poor choices. Unhealthy: frequent skipped meals, junk food, or irregular eating.",
             )
             if "dietary_habits" in st.session_state.errors:
                 st.markdown(
@@ -641,14 +621,14 @@ elif page == "📊 Predict Depression Risk":
                 )
         with col2:
             financial_stress = st.slider(
-                "Financial Stress (1 = Lowest, 5 = Highest)",
+                "Financial Stress (1 = Not at all stressed, 5 = Extremely stressed)",
                 1,
                 5,
                 3,
+                help="Rate your current level of stress related to finances — tuition fees, living costs, debt, or uncertainty about your financial future.",
             )
         st.markdown("</div>", unsafe_allow_html=True)
 
-        # Mental Health History
         st.markdown(
             "<div class='section-card'><h2 class='section-title'>🧠 Mental Health History</h2>",
             unsafe_allow_html=True,
@@ -659,7 +639,7 @@ elif page == "📊 Predict Depression Risk":
                 "Have you ever had suicidal thoughts?",
                 ["Select", "No", "Yes"],
                 index=0,
-                help="Your honest answer helps us provide better support",
+                help="This question is important for an accurate assessment. Your response is completely confidential and will not be shared. There is no wrong answer — please answer honestly.",
             )
             if "suicidal_thoughts" in st.session_state.errors:
                 st.markdown(
@@ -671,7 +651,7 @@ elif page == "📊 Predict Depression Risk":
                 "Family History of Mental Illness",
                 ["Select", "No", "Yes"],
                 index=0,
-                help="Do any family members have a history of mental illness?",
+                help="Do any close family members (parents, siblings, grandparents) have a known history of depression, anxiety, or other mental health conditions? If unsure, select No.",
             )
             if "family_history" in st.session_state.errors:
                 st.markdown(
@@ -685,9 +665,8 @@ elif page == "📊 Predict Depression Risk":
     if submitted:
         st.session_state.errors = {}
 
-        # Validation
-        if not (0 <= age <= 30):
-            st.session_state.errors["age"] = "Age must be between 0 and 30"
+        if not (15 <= age <= 35):
+            st.session_state.errors["age"] = "Age must be between 15 and 35"
 
         if gender == "Select gender":
             st.session_state.errors["gender"] = "Please select your gender"
@@ -718,7 +697,6 @@ elif page == "📊 Predict Depression Risk":
             st.rerun()
         else:
             try:
-                # Prepare input data
                 input_data = pd.DataFrame(
                     [
                         [
@@ -758,13 +736,11 @@ elif page == "📊 Predict Depression Risk":
                     ],
                 )
 
-                # Make prediction
                 input_selected = input_data[selected_features]
                 input_scaled = scaler.transform(input_selected)
                 prediction = model.predict(input_scaled)[0]
                 probability = model.predict_proba(input_scaled)[0][1]
 
-                # Store results
                 st.session_state.last_probability = probability
                 st.session_state.last_input_scaled = input_scaled
                 st.session_state.last_prediction = prediction
@@ -772,7 +748,6 @@ elif page == "📊 Predict Depression Risk":
 
                 st.markdown("---")
 
-                # Display results in a professional manner
                 if prediction == 1:
                     risk_level = "High" if probability > 0.66 else "Moderate-High"
                     st.error(
@@ -808,15 +783,24 @@ elif page == "📊 Predict Depression Risk":
                 """
                 )
 
-                # Show input summary
+                st.markdown(
+                    """
+                    <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-left: 4px solid #2563eb; padding: 16px 20px; border-radius: 8px; margin: 16px 0;">
+                        <p style="margin: 0; font-size: 14px; color: #1e40af !important; font-weight: 500;">
+                            📈 Want to understand what drove this result? Head over to <strong>Insights & Analytics</strong> in the sidebar to see a breakdown of which factors contributed most to your score, your top risk drivers, and personalised recommendations.
+                        </p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+
                 with st.expander("📋 View Your Responses"):
                     st.dataframe(input_data, use_container_width=True)
 
             except Exception as e:
-                st.error(f"❌ Error during prediction: {e}")
+                st.error(f"Error during prediction: {e}")
 
 
-# INSIGHTS PAGE
 elif page == "📈 Insights & Analytics":
 
     st.markdown(
@@ -840,9 +824,8 @@ elif page == "📈 Insights & Analytics":
         prob = st.session_state.last_probability
         prediction = st.session_state.last_prediction
 
-        # Professional Risk Summary
         st.markdown("### Assessment Summary")
-        
+
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
@@ -857,16 +840,14 @@ elif page == "📈 Insights & Analytics":
         with col3:
             status = "At Risk" if prediction == 1 else "Not At Risk"
             st.metric("Classification", status)
-            
+
         with col4:
-            confidence = max(prob, 1-prob) * 100
+            confidence = max(prob, 1 - prob) * 100
             st.metric("Confidence", f"{confidence:.1f}%")
 
         st.markdown("---")
 
-        # Feature Contribution Analysis
         st.markdown("### Feature Contribution Analysis")
-        st.markdown("This chart shows which factors had the strongest influence on your risk assessment.")
 
         coef = model.coef_[0]
         contributions = coef * st.session_state.last_input_scaled[0]
@@ -875,159 +856,260 @@ elif page == "📈 Insights & Analytics":
             {"Feature": selected_features, "Contribution": contributions}
         ).sort_values("Contribution", key=abs, ascending=False)[:10]
 
-        # Create horizontal bar chart
+        top_risk_feature = (
+            contrib_df[contrib_df["Contribution"] > 0].iloc[0]["Feature"]
+            if not contrib_df[contrib_df["Contribution"] > 0].empty
+            else None
+        )
+        top_protective_feature = (
+            contrib_df[contrib_df["Contribution"] < 0].iloc[0]["Feature"]
+            if not contrib_df[contrib_df["Contribution"] < 0].empty
+            else None
+        )
+        n_risk = len(contrib_df[contrib_df["Contribution"] > 0])
+        n_protective = len(contrib_df[contrib_df["Contribution"] < 0])
+
+        interpretation_parts = []
+        if top_risk_feature:
+            interpretation_parts.append(
+                f"Your strongest risk-increasing factor is {top_risk_feature}"
+            )
+        if top_protective_feature:
+            interpretation_parts.append(
+                f"while {top_protective_feature} is working in your favour"
+            )
+        if n_risk > 0 and n_protective > 0:
+            interpretation_parts.append(
+                f"Overall, {n_risk} of your top 10 factors are pushing risk up and {n_protective} are pulling it down"
+            )
+
+        if interpretation_parts:
+            st.markdown(
+                f"""
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #2563eb; padding: 14px 18px; border-radius: 6px; margin-bottom: 16px;">
+                    <p style="margin: 0; font-size: 14px; color: #334155 !important; line-height: 1.7;">
+                        {". ".join(interpretation_parts)}. Bars extending to the right (red) increase your depression risk score, while bars extending to the left (green) reduce it. The longer the bar, the stronger the influence of that factor on your result.
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
         fig, ax = plt.subplots(figsize=(10, 6))
-        colors_bar = ["#dc2626" if c > 0 else "#16a34a" for c in contrib_df["Contribution"]]
-        
-        bars = ax.barh(contrib_df["Feature"], contrib_df["Contribution"], color=colors_bar, alpha=0.8)
-        ax.set_xlabel("Contribution Score", fontsize=11, fontweight='500')
-        ax.set_ylabel("Feature", fontsize=11, fontweight='500')
-        ax.set_title("Top 10 Contributing Factors", fontsize=13, fontweight='600', pad=15, loc='left')
-        ax.axvline(0, color='#64748b', linewidth=1, linestyle='--', alpha=0.5)
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-        ax.grid(axis='x', alpha=0.2, linestyle='--')
+        colors_bar = [
+            "#dc2626" if c > 0 else "#16a34a" for c in contrib_df["Contribution"]
+        ]
+
+        bars = ax.barh(
+            contrib_df["Feature"],
+            contrib_df["Contribution"],
+            color=colors_bar,
+            alpha=0.8,
+        )
+        ax.set_xlabel("Contribution Score", fontsize=11, fontweight="500")
+        ax.set_ylabel("Feature", fontsize=11, fontweight="500")
+        ax.set_title(
+            "Top 10 Contributing Factors",
+            fontsize=13,
+            fontweight="600",
+            pad=15,
+            loc="left",
+        )
+        ax.axvline(0, color="#64748b", linewidth=1, linestyle="--", alpha=0.5)
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        ax.grid(axis="x", alpha=0.2, linestyle="--")
         ax.invert_yaxis()
-        
-        # Add value labels
+
         for bar in bars:
             width = bar.get_width()
             label_x_pos = width if width > 0 else width
-            ax.text(label_x_pos, bar.get_y() + bar.get_height()/2, 
-                   f'{width:.3f}', 
-                   ha='left' if width > 0 else 'right',
-                   va='center', fontsize=9, color='#475569', fontweight='500')
+            ax.text(
+                label_x_pos,
+                bar.get_y() + bar.get_height() / 2,
+                f"{width:.3f}",
+                ha="left" if width > 0 else "right",
+                va="center",
+                fontsize=9,
+                color="#475569",
+                fontweight="500",
+            )
 
         plt.tight_layout()
         st.pyplot(fig)
         plt.close()
-        
-        st.caption("🔴 Red = Increases depression risk  |  🟢 Green = Decreases depression risk")
+
+        st.caption(
+            "🔴 Red = Increases depression risk  |  🟢 Green = Decreases depression risk"
+        )
 
         st.markdown("---")
 
-   
         st.markdown("### Model Feature Importance")
-        st.markdown("Understanding which features the model considers most important overall.")
-        
-    
-        all_coefs = pd.DataFrame({
-            'Feature': selected_features,
-            'Coefficient': model.coef_[0]
-        }).sort_values('Coefficient', key=abs, ascending=False)[:10]
-        
+
+        all_coefs = pd.DataFrame(
+            {"Feature": selected_features, "Coefficient": model.coef_[0]}
+        ).sort_values("Coefficient", key=abs, ascending=False)[:10]
+
+        top_positive_coef = (
+            all_coefs[all_coefs["Coefficient"] > 0].iloc[0]["Feature"]
+            if not all_coefs[all_coefs["Coefficient"] > 0].empty
+            else None
+        )
+        top_negative_coef = (
+            all_coefs[all_coefs["Coefficient"] < 0].iloc[0]["Feature"]
+            if not all_coefs[all_coefs["Coefficient"] < 0].empty
+            else None
+        )
+
+        coef_interpretation = "This chart shows how the model weighs each factor in general — independent of your specific answers. "
+        if top_positive_coef:
+            coef_interpretation += f"{top_positive_coef} is the single strongest predictor of elevated risk across all students in the training data"
+        if top_negative_coef:
+            coef_interpretation += f", while {top_negative_coef} is the most strongly associated with lower risk"
+        coef_interpretation += ". Unlike the previous chart, these coefficients reflect the model's learned weights and are the same for every user."
+
+        st.markdown(
+            f"""
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #2563eb; padding: 14px 18px; border-radius: 6px; margin-bottom: 16px;">
+                <p style="margin: 0; font-size: 14px; color: #334155 !important; line-height: 1.7;">
+                    {coef_interpretation}
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
         fig, ax = plt.subplots(figsize=(10, 6))
-        colors_coef = ['#dc2626' if c > 0 else '#16a34a' for c in all_coefs['Coefficient']]
-        
-        bars = ax.barh(all_coefs['Feature'], all_coefs['Coefficient'], color=colors_coef, alpha=0.8)
-        ax.set_xlabel('Model Coefficient', fontsize=11, fontweight='500')
-        ax.set_ylabel('Feature', fontsize=11, fontweight='500')
-        ax.set_title('Top 10 Model Coefficients', fontsize=13, fontweight='600', pad=15, loc='left')
-        ax.axvline(0, color='#64748b', linewidth=1, linestyle='--', alpha=0.5)
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-        ax.grid(axis='x', alpha=0.2, linestyle='--')
+        colors_coef = [
+            "#dc2626" if c > 0 else "#16a34a" for c in all_coefs["Coefficient"]
+        ]
+
+        bars = ax.barh(
+            all_coefs["Feature"], all_coefs["Coefficient"], color=colors_coef, alpha=0.8
+        )
+        ax.set_xlabel("Model Coefficient", fontsize=11, fontweight="500")
+        ax.set_ylabel("Feature", fontsize=11, fontweight="500")
+        ax.set_title(
+            "Top 10 Model Coefficients",
+            fontsize=13,
+            fontweight="600",
+            pad=15,
+            loc="left",
+        )
+        ax.axvline(0, color="#64748b", linewidth=1, linestyle="--", alpha=0.5)
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        ax.grid(axis="x", alpha=0.2, linestyle="--")
         ax.invert_yaxis()
-        
-        # Add value labels
+
         for bar in bars:
             width = bar.get_width()
             label_x_pos = width if width > 0 else width
-            ax.text(label_x_pos, bar.get_y() + bar.get_height()/2, 
-                   f'{width:.3f}', 
-                   ha='left' if width > 0 else 'right',
-                   va='center', fontsize=9, color='#475569', fontweight='500')
-        
+            ax.text(
+                label_x_pos,
+                bar.get_y() + bar.get_height() / 2,
+                f"{width:.3f}",
+                ha="left" if width > 0 else "right",
+                va="center",
+                fontsize=9,
+                color="#475569",
+                fontweight="500",
+            )
+
         plt.tight_layout()
         st.pyplot(fig)
         plt.close()
-        
-        st.caption("These coefficients show the general influence each feature has on the model's predictions.")
+
+        st.caption(
+            "These coefficients show the general influence each feature has on the model's predictions."
+        )
 
         st.markdown("---")
 
-        # Personalized Recommendations
         st.markdown("### Personalized Recommendations")
-        
+
         input_data = st.session_state.last_input_data
 
         recommendations = []
 
         if prob >= 0.5:
-            recommendations.append({
-                "priority": "High",
-                "category": "Professional Support",
-                "recommendation": "Consider scheduling an appointment with a mental health counselor or therapist.",
-                "icon": "🆘"
-            })
+            recommendations.append(
+                {
+                    "priority": "High",
+                    "category": "Professional Support",
+                    "recommendation": "Consider scheduling an appointment with a mental health counselor or therapist.",
+                }
+            )
 
         if input_data["Sleep Duration"].values[0] <= 1:
-            recommendations.append({
-                "priority": "High",
-                "category": "Sleep Hygiene",
-                "recommendation": "Aim for 7-8 hours of quality sleep each night. Establish a consistent bedtime routine.",
-                "icon": "😴"
-            })
+            recommendations.append(
+                {
+                    "priority": "High",
+                    "category": "Sleep Hygiene",
+                    "recommendation": "Aim for 7-8 hours of quality sleep each night. Establish a consistent bedtime routine.",
+                }
+            )
 
         if input_data["Academic Pressure"].values[0] >= 4:
-            recommendations.append({
-                "priority": "High",
-                "category": "Stress Management",
-                "recommendation": "Break academic tasks into smaller steps, use time management techniques, and seek help when needed.",
-                "icon": "📚"
-            })
+            recommendations.append(
+                {
+                    "priority": "High",
+                    "category": "Stress Management",
+                    "recommendation": "Break academic tasks into smaller steps, use time management techniques, and seek help when needed.",
+                }
+            )
 
         if input_data["Financial Stress"].values[0] >= 4:
-            recommendations.append({
-                "priority": "Medium",
-                "category": "Financial Wellness",
-                "recommendation": "Explore financial aid options, student budgeting resources, or speak with a financial counselor.",
-                "icon": "💰"
-            })
+            recommendations.append(
+                {
+                    "priority": "Medium",
+                    "category": "Financial Wellness",
+                    "recommendation": "Explore financial aid options, student budgeting resources, or speak with a financial counselor.",
+                }
+            )
 
         if input_data["Study Satisfaction"].values[0] <= 2:
-            recommendations.append({
-                "priority": "Medium",
-                "category": "Academic Engagement",
-                "recommendation": "Join study groups, explore different learning methods, or speak with an academic advisor.",
-                "icon": "🎯"
-            })
+            recommendations.append(
+                {
+                    "priority": "Medium",
+                    "category": "Academic Engagement",
+                    "recommendation": "Join study groups, explore different learning methods, or speak with an academic advisor.",
+                }
+            )
 
-        # Always add these
-        recommendations.append({
-            "priority": "Medium",
-            "category": "Physical Activity",
-            "recommendation": "Regular exercise can significantly improve mental health. Aim for 30 minutes of activity daily.",
-            "icon": "🏃"
-        })
-        
-        recommendations.append({
-            "priority": "Medium",
-            "category": "Social Connection",
-            "recommendation": "Maintain relationships with friends and family. Social support is crucial for mental wellbeing.",
-            "icon": "🤝"
-        })
+        recommendations.append(
+            {
+                "priority": "Medium",
+                "category": "Physical Activity",
+                "recommendation": "Regular exercise can significantly improve mental health. Aim for 30 minutes of activity daily.",
+            }
+        )
+
+        recommendations.append(
+            {
+                "priority": "Medium",
+                "category": "Social Connection",
+                "recommendation": "Maintain relationships with friends and family. Social support is crucial for mental wellbeing.",
+            }
+        )
 
         if recommendations:
             rec_df = pd.DataFrame(recommendations)
             st.dataframe(
-                rec_df[['priority', 'category', 'recommendation', 'icon']],
+                rec_df[["priority", "category", "recommendation"]],
                 column_config={
                     "priority": "Priority",
                     "category": "Category",
                     "recommendation": "Recommendation",
-                    "icon": "📋"
                 },
                 hide_index=True,
-                use_container_width=True
+                use_container_width=True,
             )
 
 
-# ABOUT PAGE
 elif page == "ℹ️ About":
-    st.markdown(
-        "<h1 class='main-title'>About MindCheck</h1>", unsafe_allow_html=True
-    )
+    st.markdown("<h1 class='main-title'>About MindCheck</h1>", unsafe_allow_html=True)
     st.markdown(
         "<p class='subtitle'>Learn more about our depression screening tool and methodology</p>",
         unsafe_allow_html=True,
@@ -1100,22 +1182,6 @@ elif page == "ℹ️ About":
             <strong>4. Hyperparameter Tuning:</strong> Optimized model parameters using RandomizedSearchCV<br>
             <strong>5. Validation:</strong> Evaluated using stratified k-fold cross-validation<br>
             <strong>6. Deployment:</strong> Built this interactive Streamlit application for easy access
-        </p>
-    </div>
-    """,
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        """
-    <div class="section-card" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);">
-        <h3 style="color: #1e40af !important; margin-bottom: 12px;">👨‍💻 Developer Information</h3>
-        <p style="color: #1e3a8a !important; line-height: 1.8; margin: 0;">
-            <strong>Student Name:</strong> Foo Jing Heng Anson (2401482A)<br>
-            <strong>Tutorial Group:</strong> T07<br>
-            <strong>Module:</strong> Machine Learning for Developers (CAI2C08)<br>
-            <strong>Institution:</strong> Temasek Polytechnic - School of Informatics & IT<br>
-            <strong>Academic Year:</strong> 2025/2026 October Semester
         </p>
     </div>
     """,
