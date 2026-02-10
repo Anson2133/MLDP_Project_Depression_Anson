@@ -263,31 +263,43 @@ label {
 )
 
 
+import os
+import joblib
+import streamlit as st
+
+BASE_DIR = os.path.dirname(__file__)
+
 # Load Model Functions
 @st.cache_resource
 def load_model():
     try:
-        return joblib.load("logistic_regression_tuned.pkl")
+        return joblib.load(
+            os.path.join(BASE_DIR, "logistic_regression_tuned.pkl")
+        )
     except Exception as e:
-        st.error(f"⚠️ Model file not found: {e}")
+        st.error(f"Model file not found: {e}")
         st.stop()
 
 
 @st.cache_resource
 def load_scaler():
     try:
-        return joblib.load("scaler.pkl")
+        return joblib.load(
+            os.path.join(BASE_DIR, "scaler.pkl")
+        )
     except Exception as e:
-        st.error(f"⚠️ Scaler file not found: {e}")
+        st.error(f"Scaler file not found: {e}")
         st.stop()
 
 
 @st.cache_resource
 def load_selected_features():
     try:
-        return joblib.load("selected_features.pkl")
+        return joblib.load(
+            os.path.join(BASE_DIR, "selected_features.pkl")
+        )
     except Exception as e:
-        st.error(f"⚠️ Selected features file not found: {e}")
+        st.error(f"Selected features file not found: {e}")
         st.stop()
 
 
